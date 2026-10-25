@@ -1,0 +1,37 @@
+stage,check,passed,detail
+UCS,route found,True,ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH
+UCS,starts at source / ends at goal,True,ARC ... CLH
+UCS,avoids FAILED components,True,failed on route: none
+UCS,capacity >= required throughput,True,bottleneck 950 kW >= 600 kW
+UCS,route thermal <= limit,True,14.00 C <= 14.00 C
+UCS,reported cost = recomputed cost,True,44.2000 vs 44.2000
+UCS,optimal vs exhaustive enumeration,True,UCS 44.20 = best of 6 feasible routes 44.20
+UCS,delivered power covers critical load,True,delivered 950.0 kW - critical 420 kW = budget 530.0 kW
+SA,"SP within [300, 700] NU",True,x_SP = 320
+SA,"ES within [80, 400] NU",True,x_ES = 122
+SA,"FS within [60, 350] NU",True,x_FS = 125
+SA,"SR within [100, 500] NU",True,x_SR = 174
+SA,"SN within [40, 250] NU",True,x_SN = 100
+SA,material <= reserve,True,841 <= 1200 NU
+SA,nano power <= rho * B,True,370.0 <= 371.0 kW (rho=0.70)
+SA,armor thermal <= limit,True,24.78 <= 30.0 C
+SA,reported objective = recomputed,True,J = 50.8307
+SA,final J >= initial J,True,50.831 >= 38.287
+CSP,schedule found,True,makespan 15 slots
+CSP,every task scheduled,True,9/9 tasks
+CSP,C1 precedence,True,all dependencies respected
+CSP,C2 safety separation,True,cool-down gaps respected
+CSP,C3 safety no-overlap,True,no forbidden overlaps
+CSP,C4 resource exclusivity,True,no unit double-booked
+CSP,equipment compatibility,True,all units capable
+CSP,C5 power profile <= P_res,True,peak 155 kW <= 160.0 kW
+CSP,C6 technicians,True,peak 2 <= 2
+CSP,C7 deadlines / horizon,True,makespan 15 <= 16
+CSP,durations match derived requirements,True,ok
+INTEGRATED,power balance  P_crit + P_nano + peak P_lab <= P_delivered,True,420 + 370.0 + 155 = 945.0 <= 950.0 kW
+INTEGRATED,reactor balance  P_delivered + losses <= P_avail,True,950 + 34 <= 1000 kW
+INTEGRATED,thermal  theta_route + theta_nano <= Theta_armor,True,14.00 + 10.78 = 24.78 <= 30.0 C
+INTEGRATED,mandatory structural protection,True,x_SP = 320 >= 300 NU
+INTEGRATED,consumed nanomaterial is replenished,True,841 NU replenished in slots 9-12
+INTEGRATED,armor recharged to target state of charge,True,228.0 kWh delivered >= 220.0 kWh deficit
+INTEGRATED,mission completes before deadline,True,15 slots x 30 min = 7.5 h <= 8.0 h

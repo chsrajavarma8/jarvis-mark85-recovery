@@ -1,0 +1,348 @@
+
+==============================================================================
+JARVIS :: MARK 85 INTELLIGENT RECOVERY  (fictional engineering simulation)
+==============================================================================
+Mission          : MK85-REC-001 at Stark Tower - Armor Testing Laboratory
+Trigger          : FRIDAY fault report: Arc Reactor distribution fault, primary converter PC1 offline, nanomaterial reserve depleted, subsystem damage
+Arc Reactor      : 1000 kW available of 1500 kW nominal (DEGRADED)
+Critical load    : 420 kW  (FLC+STB+SEN+LSC)
+Nanomaterial     : 1200 NU reserve, armor thermal limit 30.0 C
+Laboratory       : 9 tasks, 2 technicians, horizon 16 x 30 min
+
+Subsystem status reported by FRIDAY:
+  FLC  Flight Controller          health  62%  load  120 kW  DEGRADED
+  STB  Stabilization System       health  55%  load  110 kW  DEGRADED
+  SEN  Sensor Array               health  71%  load   60 kW  MISCALIBRATED
+  LSC  Life-Support Controller    health  88%  load  130 kW  NOMINAL-ON-BACKUP
+  STR  Structural Shell           health  47%  load    0 kW  BREACHED
+
+=== JARVIS planning attempt 1: rho=0.80, excluded edges=none ===
+[UCS] route ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH cost=44.20 delivered=950.0 kW budget B=530.0 kW
+[SA ] allocation {'SP': 360, 'ES': 151, 'FS': 125, 'SR': 200, 'SN': 120} J=54.246 P_nano=418.1 kW P_res=111.9 kW
+[CSP] CSP infeasible: CHARGE draws 120 kW > available P_res 111.9 kW; empty domain for CHARGE -> reduce nanomaterial power fraction rho 0.80 -> 0.70 to free laboratory power; re-run SA and CSP
+
+=== JARVIS planning attempt 2: rho=0.70, excluded edges=none ===
+[UCS] route ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH cost=44.20 delivered=950.0 kW budget B=530.0 kW
+[SA ] allocation {'SP': 320, 'ES': 122, 'FS': 125, 'SR': 174, 'SN': 100} J=50.831 P_nano=370.0 kW P_res=160.0 kW
+[CSP] schedule found: makespan=15 slots, nodes=10, backtracks=0
+
+==============================================================================
+STAGE 1 - UNIFORM COST SEARCH: Arc Reactor power routing
+==============================================================================
+Edge cost c(e) = 1.0*loss + 0.5*thermal + 0.4*switching ; P_req = 600 kW ; Theta_max = 14 C
+
+edge           loss kW  therm C  sw ms  cap kW    cost
+ARC->PC1             6      1.5      1    1200    7.15
+ARC->PC2            14        3      2     950   16.30
+ARC->PC3             8        2      1     520    9.40
+ARC->BKP            22        1      4     700   24.10
+PC1->SW1             3        1      1    1200    3.90
+PC2->SW1             9      2.5      3     960   11.45
+PC2->SW2             5        4      2     850    7.80
+PC3->SW2             4        2      2     520    5.80
+BKP->SW3            10        1      3     700   11.70
+SW1->SW2             2        1      2     960    3.30
+SW1->BUS_A           7        2      1     800    8.40
+SW1->BUS_B          10      1.5      1     780   11.15
+SW2->BUS_B           4      3.5      1     980    6.15
+SW2->BUS_C           9        1      1     750    9.90
+SW3->BUS_C           5        1      1     700    5.90
+BUS_A->CLH           8      4.5      0     900   10.25
+BUS_B->CLH           5        4      0    1000    7.00
+BUS_C->CLH          12        2      0     760   13.00
+
+Expansion trace (frontier shown as node:g/theta, ordered by g):
+ step  1: expand ARC    g=  0.00 theta=  0.0 path=ARC
+          push PC2    g= 16.30 theta=  3.0 (edge 16.3)
+          push BKP    g= 24.10 theta=  1.0 (edge 24.1)
+          reject PC1    PC1 FAILED (FRIDAY fault)
+          reject PC3    capacity 520 < required 600 kW
+          frontier: PC2:16.3/3.0, BKP:24.1/1.0
+ step  2: expand PC2    g= 16.30 theta=  3.0 path=ARC>PC2
+          push SW1    g= 27.75 theta=  5.5 (edge 11.45)
+          push SW2    g= 24.10 theta=  7.0 (edge 7.8)
+          frontier: BKP:24.1/1.0, SW2:24.1/7.0, SW1:27.75/5.5
+ step  3: expand BKP    g= 24.10 theta=  1.0 path=ARC>BKP
+          push SW3    g= 35.80 theta=  2.0 (edge 11.7)
+          frontier: SW2:24.1/7.0, SW1:27.75/5.5, SW3:35.8/2.0
+ step  4: expand SW2    g= 24.10 theta=  7.0 path=ARC>PC2>SW2
+          push BUS_B  g= 30.25 theta= 10.5 (edge 6.15)
+          push BUS_C  g= 34.00 theta=  8.0 (edge 9.9)
+          frontier: SW1:27.75/5.5, BUS_B:30.25/10.5, BUS_C:34.0/8.0, SW3:35.8/2.0
+ step  5: expand SW1    g= 27.75 theta=  5.5 path=ARC>PC2>SW1
+          push SW2    g= 31.05 theta=  6.5 (edge 3.3)
+          push BUS_A  g= 36.15 theta=  7.5 (edge 8.4)
+          push BUS_B  g= 38.90 theta=  7.0 (edge 11.15)
+          frontier: BUS_B:30.25/10.5, SW2:31.05/6.5, BUS_C:34.0/8.0, SW3:35.8/2.0, BUS_A:36.15/7.5, BUS_B:38.9/7.0
+ step  6: expand BUS_B  g= 30.25 theta= 10.5 path=ARC>PC2>SW2>BUS_B
+          reject CLH    thermal 14.5 > limit 14.0 C
+          frontier: SW2:31.05/6.5, BUS_C:34.0/8.0, SW3:35.8/2.0, BUS_A:36.15/7.5, BUS_B:38.9/7.0
+ step  7: expand SW2    g= 31.05 theta=  6.5 path=ARC>PC2>SW1>SW2
+          push BUS_B  g= 37.20 theta= 10.0 (edge 6.15)
+          push BUS_C  g= 40.95 theta=  7.5 (edge 9.9)
+          frontier: BUS_C:34.0/8.0, SW3:35.8/2.0, BUS_A:36.15/7.5, BUS_B:37.2/10.0, BUS_B:38.9/7.0, BUS_C:40.95/7.5
+ step  8: expand BUS_C  g= 34.00 theta=  8.0 path=ARC>PC2>SW2>BUS_C
+          push CLH    g= 47.00 theta= 10.0 (edge 13.0)
+          frontier: SW3:35.8/2.0, BUS_A:36.15/7.5, BUS_B:37.2/10.0, BUS_B:38.9/7.0, BUS_C:40.95/7.5, CLH:47.0/10.0
+ step  9: expand SW3    g= 35.80 theta=  2.0 path=ARC>BKP>SW3
+          push BUS_C  g= 41.70 theta=  3.0 (edge 5.9)
+          frontier: BUS_A:36.15/7.5, BUS_B:37.2/10.0, BUS_B:38.9/7.0, BUS_C:40.95/7.5, BUS_C:41.7/3.0, CLH:47.0/10.0
+ step 10: expand BUS_A  g= 36.15 theta=  7.5 path=ARC>PC2>SW1>BUS_A
+          push CLH    g= 46.40 theta= 12.0 (edge 10.25)
+          frontier: BUS_B:37.2/10.0, BUS_B:38.9/7.0, BUS_C:40.95/7.5, BUS_C:41.7/3.0, CLH:46.4/12.0, CLH:47.0/10.0
+ step 11: expand BUS_B  g= 37.20 theta= 10.0 path=ARC>PC2>SW1>SW2>BUS_B
+          push CLH    g= 44.20 theta= 14.0 (edge 7.0)
+          frontier: BUS_B:38.9/7.0, BUS_C:40.95/7.5, BUS_C:41.7/3.0, CLH:44.2/14.0, CLH:46.4/12.0, CLH:47.0/10.0
+ step 12: expand BUS_B  g= 38.90 theta=  7.0 path=ARC>PC2>SW1>BUS_B
+          push CLH    g= 45.90 theta= 11.0 (edge 7.0)
+          frontier: BUS_C:40.95/7.5, BUS_C:41.7/3.0, CLH:44.2/14.0, CLH:45.9/11.0, CLH:46.4/12.0, CLH:47.0/10.0
+ step 13: expand BUS_C  g= 40.95 theta=  7.5 path=ARC>PC2>SW1>SW2>BUS_C
+          push CLH    g= 53.95 theta=  9.5 (edge 13.0)
+          frontier: BUS_C:41.7/3.0, CLH:44.2/14.0, CLH:45.9/11.0, CLH:46.4/12.0, CLH:47.0/10.0, CLH:53.95/9.5
+ step 14: expand BUS_C  g= 41.70 theta=  3.0 path=ARC>BKP>SW3>BUS_C
+          push CLH    g= 54.70 theta=  5.0 (edge 13.0)
+          frontier: CLH:44.2/14.0, CLH:45.9/11.0, CLH:46.4/12.0, CLH:47.0/10.0, CLH:53.95/9.5, CLH:54.7/5.0
+ step 15: expand CLH    g= 44.20 theta= 14.0 path=ARC>PC2>SW1>SW2>BUS_B>CLH   <-- GOAL
+          frontier: CLH:45.9/11.0, CLH:46.4/12.0, CLH:47.0/10.0, CLH:53.95/9.5, CLH:54.7/5.0
+
+OPTIMAL ROUTE   : ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH
+path cost g*    : 44.20
+losses / thermal / switching : 34 kW / 14 C / 8 ms
+bottleneck cap  : 950 kW
+delivered power : min(1000 - 34, 950) = 950 kW
+power budget B  : 950 - 420 = 530 kW  -> Stage 2
+route efficiency eta = 0.950  -> Stage 3 charging rate
+expanded 15 labels, generated 19
+
+==============================================================================
+STAGE 2 - SIMULATED ANNEALING: nanomaterial allocation
+==============================================================================
+power cap rho*B = 0.70 x 530.0 = 371.0 kW
+initial (mandatory minimums) {'SP': 300, 'ES': 80, 'FS': 60, 'SR': 100, 'SN': 40}  J0 = 38.287
+
+ iter        T move                       cand J       dE  P(acc)  decision
+    1   4.0000 add 4 NU to SP             38.264   +0.023   0.994  ACCEPT-WORSE
+    2   4.0000 add 13 NU to SN            38.226   +0.038   0.990  ACCEPT-WORSE
+    3   4.0000 add 7 NU to SP             38.181   +0.045   0.989  ACCEPT-WORSE
+    4   4.0000 move 3 NU SN->ES           38.259   -0.078   1.000  ACCEPT-BETTER
+    5   4.0000 remove 9 NU from SN        38.278   -0.019   1.000  ACCEPT-BETTER
+    6   4.0000 add 15 NU to SP            39.359   -1.082   1.000  ACCEPT-BETTER (new best)
+    7   4.0000 move 3 NU SP->FS           39.478   -0.119   1.000  ACCEPT-BETTER (new best)
+    8   4.0000 add 1 NU to FS             39.508   -0.029   1.000  ACCEPT-BETTER (new best)
+    9   4.0000 remove 4 NU from SP        38.341   +1.167   0.747  ACCEPT-WORSE
+   10   4.0000 add 9 NU to ES             39.683   -1.342   1.000  ACCEPT-BETTER (new best)
+   11   4.0000 remove 3 NU from ES        38.440   +1.243   0.733  REJECT
+   12   4.0000 add 14 NU to SN            39.624   +0.059   0.985  ACCEPT-WORSE
+   13   4.0000 move 11 NU ES->FS          39.715   -0.091   1.000  ACCEPT-BETTER (new best)
+   14   4.0000 remove 2 NU from SN        39.733   -0.019   1.000  ACCEPT-BETTER (new best)
+   15   4.0000 move 4 NU SP->ES           39.836   -0.103   1.000  ACCEPT-BETTER (new best)
+   16   4.0000 remove 10 NU from SP       39.904   -0.068   1.000  ACCEPT-BETTER (new best)
+   17   4.0000 move 11 NU SN->SR          40.164   -0.260   1.000  ACCEPT-BETTER (new best)
+   18   4.0000 move 2 NU ES->SN           40.129   +0.035   0.991  ACCEPT-WORSE
+   19   4.0000 move 3 NU SP->SR           40.200   -0.071   1.000  ACCEPT-BETTER (new best)
+   20   4.0000 move 3 NU ES->SN           40.137   +0.063   0.984  ACCEPT-WORSE
+   21   4.0000 remove 6 NU from FS        38.802   +1.336   0.716  ACCEPT-WORSE
+   22   4.0000 remove 2 NU from FS        38.750   +0.051   0.987  ACCEPT-WORSE
+   23   4.0000 move 10 NU SR->SN          38.486   +0.264   0.936  ACCEPT-WORSE
+   24   4.0000 move 11 NU SN->SR          38.770   -0.285   1.000  ACCEPT-BETTER
+   25   4.0000 add 15 NU to SN            39.839   -1.068   1.000  ACCEPT-BETTER
+  ...  (every 400th iteration below)
+  400   1.8886 move 7 NU SP->ES           46.178   -0.083   1.000  ACCEPT-BETTER
+  800   0.8204 move 1 NU ES->SN           47.145   +0.023   0.973  ACCEPT-WORSE
+ 1200   0.3564 remove 2 NU from SN        49.268   -0.039   1.000  ACCEPT-BETTER
+ 1600   0.1548 remove 5 NU from SR        49.441   +1.243   0.000  REJECT
+ 2000   0.0672 move 14 NU SR->SP          50.466   +0.230   0.033  REJECT
+ 2400   0.0292 remove 1 NU from ES        49.537   +1.202   0.000  REJECT
+ 2800   0.0127 move 5 NU ES->SR           49.617   +1.196   0.000  REJECT
+ 3200   0.0055 remove 4 NU from ES        49.576   +1.204   0.000  REJECT
+
+termination     : temperature 0.0047 < T_min 0.005
+iterations 3240, accepted-worse 672, rejected-infeasible neighbours 890, best improvements 44
+BEST ALLOCATION : {'SP': 320, 'ES': 122, 'FS': 125, 'SR': 174, 'SN': 100}
+objective J*    : 50.8307  (from 38.2866)
+material used   : 841 / 1200 NU
+nano power      : 370.0 kW (cap 371.0)
+residual P_res  : 160.0 kW  -> Stage 3 power constraint
+total thermal   : 24.78 C (limit 30.0)
+
+==============================================================================
+STAGE 3 - CSP: Stark Laboratory recovery scheduling
+==============================================================================
+Derived inputs:
+  Power cap for concurrent lab operations P_res = B - P_nano = 530.0 - 370.0 = 160.0 kW
+  Route efficiency eta = 0.950 scales the armor charging rate
+  Combined thermal load 24.78 C sets the thermal-inspection length
+
+task           dur    kW tech  needs / after / derivation
+ARC_DIAG         2    40    1  {'BAY': 'standard', 'TESTRIG': 'diagnostics'} after=- dl=None  [fixed procedure length]
+CONV_REPAIR      3    60    1  {'ARM': 'standard', 'STATION': 'electrical'} after=['ARC_DIAG'] dl=8  [3 slots x 1 failed unit(s) ['PC1']]
+NANO_REPL        3    70    0  {'ARM': 'nano', 'STATION': 'nanofab'} after=['STRUCT_REST'] dl=None  [ceil(M=841 NU consumed / 400 NU per slot)]
+STRUCT_REST      3    90    1  {'ARM': 'nano', 'BAY': 'standard'} after=['ARC_DIAG'] dl=None  [ceil(x_SR=174 / 80 NU per slot)]
+SENSOR_CAL       2    30    0  {'ARM': 'precision', 'BAY': 'standard', 'TESTRIG': 'diagnostics'} after=['STRUCT_REST'] dl=None  [1 + ceil(x_SN=100 / 100)]
+FLC_SYNC         2    35    1  {'TESTRIG': 'diagnostics'} after=['CONV_REPAIR', 'SENSOR_CAL'] dl=None  [1 + ceil(x_FS=125 / 150)]
+CHARGE           4   120    0  {'BAY': 'charging-dock', 'CHARGER': 'armor-charging'} after=['CONV_REPAIR'] dl=None  [ceil(deficit 220 kWh / (120 kW x eta=0.950 x 0.5 h))]
+THERMAL_INSP     3    20    1  {'BAY': 'thermal-shielded'} after=['CHARGE'] dl=None  [1 + ceil(theta_total=24.78 C / 15)]
+SAFETY_TEST      2   100    2  {'BAY': 'thermal-shielded', 'TESTRIG': 'diagnostics'} after=['FLC_SYNC', 'THERMAL_INSP', 'NANO_REPL'] dl=16  [fixed procedure length]
+
+Initial domain sizes (after unary + bound propagation):
+  ARC_DIAG:4, CONV_REPAIR:4, NANO_REPL:7, STRUCT_REST:12, SENSOR_CAL:12, FLC_SYNC:6, CHARGE:2, THERMAL_INSP:2, SAFETY_TEST:2
+  bound: CONV_REPAIR start >= 2 (after ARC_DIAG) |D| 12->8
+  bound: ARC_DIAG start <= 3 (before CONV_REPAIR) |D| 30->8
+  bound: NANO_REPL start >= 3 (after STRUCT_REST) |D| 14->11
+  bound: STRUCT_REST start <= 10 (before NANO_REPL) |D| 28->22
+  bound: STRUCT_REST start >= 2 (after ARC_DIAG) |D| 22->18
+  bound: SENSOR_CAL start >= 5 (after STRUCT_REST) |D| 30->20
+  bound: FLC_SYNC start >= 5 (after CONV_REPAIR) |D| 15->10
+  bound: FLC_SYNC start >= 7 (after SENSOR_CAL) |D| 10->8
+  bound: SENSOR_CAL start <= 12 (before FLC_SYNC) |D| 20->16
+  bound: CHARGE start >= 5 (after CONV_REPAIR) |D| 13->8
+  bound: THERMAL_INSP start >= 10 (after CHARGE) |D| 14->4
+  bound: CHARGE start <= 8 (before THERMAL_INSP) |D| 8->4
+  bound: SAFETY_TEST start >= 9 (after FLC_SYNC) |D| 15->6
+  bound: FLC_SYNC start <= 12 (before SAFETY_TEST) |D| 8->6
+  bound: SAFETY_TEST start >= 13 (after THERMAL_INSP) |D| 6->2
+  bound: THERMAL_INSP start <= 11 (before SAFETY_TEST) |D| 4->2
+  bound: NANO_REPL start <= 11 (before SAFETY_TEST) |D| 11->9
+  bound: NANO_REPL start >= 5 (after STRUCT_REST) |D| 9->7
+  bound: STRUCT_REST start <= 8 (before NANO_REPL) |D| 18->14
+  bound: SENSOR_CAL start <= 10 (before FLC_SYNC) |D| 16->12
+  bound: CHARGE start <= 6 (before THERMAL_INSP) |D| 4->2
+  bound: STRUCT_REST start <= 7 (before SENSOR_CAL) |D| 14->12
+  bound: CONV_REPAIR start <= 3 (before CHARGE) |D| 8->4
+  bound: ARC_DIAG start <= 1 (before CONV_REPAIR) |D| 8->4
+
+Search trace (first solve):
+  SELECT SAFETY_TEST (MRV |D|=2, degree=6)
+  ASSIGN SAFETY_TEST=(start 13, end 15, BAY-2/TEST-RIG)
+    FC: NANO_REPL 7->6, FLC_SYNC 6->5, THERMAL_INSP 2->1
+    SELECT THERMAL_INSP (MRV |D|=1, degree=4)
+    ASSIGN THERMAL_INSP=(start 10, end 13, BAY-2)
+      FC: SENSOR_CAL 12->10, CHARGE 2->1
+      SELECT CHARGE (MRV |D|=1, degree=4)
+      ASSIGN CHARGE=(start 5, end 9, BAY-1/CHG-1)
+        FC: CONV_REPAIR 4->2, NANO_REPL 6->2, STRUCT_REST 12->2, SENSOR_CAL 10->6
+        SELECT CONV_REPAIR (MRV |D|=2, degree=5)
+        ASSIGN CONV_REPAIR=(start 2, end 5, ARM-1/RS-E)
+          FC WIPEOUT: domain of STRUCT_REST empty -> undo CONV_REPAIR
+        ASSIGN CONV_REPAIR=(start 2, end 5, ARM-2/RS-E)
+          FC: ARC_DIAG 4->2
+          SELECT ARC_DIAG (MRV |D|=2, degree=3)
+          ASSIGN ARC_DIAG=(start 0, end 2, BAY-1/TEST-RIG)
+            SELECT STRUCT_REST (MRV |D|=2, degree=2)
+            ASSIGN STRUCT_REST=(start 2, end 5, ARM-1/BAY-1)
+              SELECT NANO_REPL (MRV |D|=2, degree=0)
+              ASSIGN NANO_REPL=(start 9, end 12, ARM-1/RS-N)
+                SELECT FLC_SYNC (MRV |D|=5, degree=1)
+                ASSIGN FLC_SYNC=(start 7, end 9, TEST-RIG)
+                  FC: SENSOR_CAL 6->1
+                  SELECT SENSOR_CAL (MRV |D|=1, degree=0)
+                  ASSIGN SENSOR_CAL=(start 5, end 7, ARM-2/BAY-2/TEST-RIG)
+
+first solve: nodes=10 backtracks=0 checks=424 FC-prunes=37 wipeouts=1 makespan=15
+Makespan tightening:
+  H=14: infeasible (critical path forces SAFETY_TEST to end at slot 15 > limit 14; empty domain for THERMAL_INSP; empty domain for SAFETY_TEST)
+
+FINAL SCHEDULE (makespan 15 slots):
+task           start  end  resources
+ARC_DIAG           0    2  {'BAY': 'BAY-1', 'TESTRIG': 'TEST-RIG'}
+CONV_REPAIR        2    5  {'ARM': 'ARM-2', 'STATION': 'RS-E'}
+STRUCT_REST        2    5  {'ARM': 'ARM-1', 'BAY': 'BAY-1'}
+CHARGE             5    9  {'BAY': 'BAY-1', 'CHARGER': 'CHG-1'}
+SENSOR_CAL         5    7  {'ARM': 'ARM-2', 'BAY': 'BAY-2', 'TESTRIG': 'TEST-RIG'}
+FLC_SYNC           7    9  {'TESTRIG': 'TEST-RIG'}
+NANO_REPL          9   12  {'ARM': 'ARM-1', 'STATION': 'RS-N'}
+THERMAL_INSP      10   13  {'BAY': 'BAY-2'}
+SAFETY_TEST       13   15  {'BAY': 'BAY-2', 'TESTRIG': 'TEST-RIG'}
+
+==============================================================================
+CONTROLLED REPLANNING LOG
+==============================================================================
+attempt 1: rho=0.80 excluded=-
+   UCS route ARC > PC2 > SW1 > SW2 > BUS_B > CLH  B=530.0 kW
+   SA  {'SP': 360, 'ES': 151, 'FS': 125, 'SR': 200, 'SN': 120} J=54.246 P_res=111.9 kW
+   outcome: CSP infeasible: CHARGE draws 120 kW > available P_res 111.9 kW; empty domain for CHARGE
+   action : reduce nanomaterial power fraction rho 0.80 -> 0.70 to free laboratory power; re-run SA and CSP
+attempt 2: rho=0.70 excluded=-
+   UCS route ARC > PC2 > SW1 > SW2 > BUS_B > CLH  B=530.0 kW
+   SA  {'SP': 320, 'ES': 122, 'FS': 125, 'SR': 174, 'SN': 100} J=50.831 P_res=160.0 kW
+   outcome: feasible
+   action : validate and commit
+
+==============================================================================
+INTEGRATED VALIDATION
+==============================================================================
+[PASS] UCS        route found                                             ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH
+[PASS] UCS        starts at source / ends at goal                         ARC ... CLH
+[PASS] UCS        avoids FAILED components                                failed on route: none
+[PASS] UCS        capacity >= required throughput                         bottleneck 950 kW >= 600 kW
+[PASS] UCS        route thermal <= limit                                  14.00 C <= 14.00 C
+[PASS] UCS        reported cost = recomputed cost                         44.2000 vs 44.2000
+[PASS] UCS        optimal vs exhaustive enumeration                       UCS 44.20 = best of 6 feasible routes 44.20
+[PASS] UCS        delivered power covers critical load                    delivered 950.0 kW - critical 420 kW = budget 530.0 kW
+[PASS] SA         SP within [300, 700] NU                                 x_SP = 320
+[PASS] SA         ES within [80, 400] NU                                  x_ES = 122
+[PASS] SA         FS within [60, 350] NU                                  x_FS = 125
+[PASS] SA         SR within [100, 500] NU                                 x_SR = 174
+[PASS] SA         SN within [40, 250] NU                                  x_SN = 100
+[PASS] SA         material <= reserve                                     841 <= 1200 NU
+[PASS] SA         nano power <= rho * B                                   370.0 <= 371.0 kW (rho=0.70)
+[PASS] SA         armor thermal <= limit                                  24.78 <= 30.0 C
+[PASS] SA         reported objective = recomputed                         J = 50.8307
+[PASS] SA         final J >= initial J                                    50.831 >= 38.287
+[PASS] CSP        schedule found                                          makespan 15 slots
+[PASS] CSP        every task scheduled                                    9/9 tasks
+[PASS] CSP        C1 precedence                                           all dependencies respected
+[PASS] CSP        C2 safety separation                                    cool-down gaps respected
+[PASS] CSP        C3 safety no-overlap                                    no forbidden overlaps
+[PASS] CSP        C4 resource exclusivity                                 no unit double-booked
+[PASS] CSP        equipment compatibility                                 all units capable
+[PASS] CSP        C5 power profile <= P_res                               peak 155 kW <= 160.0 kW
+[PASS] CSP        C6 technicians                                          peak 2 <= 2
+[PASS] CSP        C7 deadlines / horizon                                  makespan 15 <= 16
+[PASS] CSP        durations match derived requirements                    ok
+[PASS] INTEGRATED power balance  P_crit + P_nano + peak P_lab <= P_delivered 420 + 370.0 + 155 = 945.0 <= 950.0 kW
+[PASS] INTEGRATED reactor balance  P_delivered + losses <= P_avail        950 + 34 <= 1000 kW
+[PASS] INTEGRATED thermal  theta_route + theta_nano <= Theta_armor        14.00 + 10.78 = 24.78 <= 30.0 C
+[PASS] INTEGRATED mandatory structural protection                         x_SP = 320 >= 300 NU
+[PASS] INTEGRATED consumed nanomaterial is replenished                    841 NU replenished in slots 9-12
+[PASS] INTEGRATED armor recharged to target state of charge               228.0 kWh delivered >= 220.0 kWh deficit
+[PASS] INTEGRATED mission completes before deadline                       15 slots x 30 min = 7.5 h <= 8.0 h
+
+36/36 checks passed
+Estimated post-recovery health (model): FLC 86.6%, STB 84.1%, SEN 91.7%, LSC 94.7%, STR 77.8%
+
+==============================================================================
+FINAL ARMOR STATUS: ARMOR RESTORED - OPERATIONAL AND SAFE
+==============================================================================
+
+==============================================================================
+PERFORMANCE STUDY
+==============================================================================
+SA  over 30 seeds: mean J=50.772 sd=0.287 best=51.199 worst=50.128
+HC  over 30 seeds: mean J=47.482 sd=0.194 best=48.525 worst=47.446   SA better in 30 seeds
+CSP MRV + degree + FC        solved=True nodes=    10 backtracks=     0 checks=    424 time=1.01 ms
+CSP MRV + FC                 solved=True nodes=    10 backtracks=     0 checks=    370 time=0.78 ms
+CSP FC only (static order)   solved=True nodes=    38 backtracks=     4 checks=   1636 time=1.6 ms
+CSP MRV + degree, no FC      solved=True nodes=   341 backtracks=    33 checks=   1149 time=2.13 ms
+CSP Plain backtracking       solved=True nodes=  3828 backtracks=  1097 checks=  19697 time=19.48 ms
+ROUTE UCS (all constraints)          ARC > PC2 > SW1 > SW2 > BUS_B > CLH cost=44.2 thermal=14.0 feasible=True
+ROUTE UCS thermal-blind              ARC > PC2 > SW2 > BUS_B > CLH cost=37.25 thermal=14.5 feasible=False
+ROUTE UCS thermal- & capacity-blind  ARC > PC3 > SW2 > BUS_B > CLH cost=28.35 thermal=11.5 feasible=False
+ROUTE BFS (fewest hops)              ARC > PC2 > SW1 > BUS_A > CLH cost=46.4 thermal=12.0 feasible=True
+timing (ms): {'ucs': 0.118, 'sa': 54.1, 'csp': 1.01}
+
+==============================================================================
+FIGURES
+==============================================================================
+  outputs/figures/fig01_architecture.png
+  outputs/figures/fig02_power_network.png
+  outputs/figures/fig03_ucs_expansion.png
+  outputs/figures/fig04_nano_allocation.png
+  outputs/figures/fig05_sa_convergence.png
+  outputs/figures/fig06_csp_constraint_graph.png
+  outputs/figures/fig07_gantt.png
+  outputs/figures/fig08_workflow.png
+  outputs/figures/fig09_dashboard.png
+  outputs/figures/fig10_performance.png
+
+Exports written to outputs

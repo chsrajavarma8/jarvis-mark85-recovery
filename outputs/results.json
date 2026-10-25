@@ -1,0 +1,1914 @@
+{
+  "status": "ARMOR RESTORED - OPERATIONAL AND SAFE",
+  "success": true,
+  "attempts": [
+    {
+      "number": 1,
+      "rho": 0.8,
+      "excluded": [],
+      "outcome": "CSP infeasible: CHARGE draws 120 kW > available P_res 111.9 kW; empty domain for CHARGE",
+      "action": "reduce nanomaterial power fraction rho 0.80 -> 0.70 to free laboratory power; re-run SA and CSP",
+      "route": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2",
+        "BUS_B",
+        "CLH"
+      ],
+      "allocation": {
+        "SP": 360,
+        "ES": 151,
+        "FS": 125,
+        "SR": 200,
+        "SN": 120
+      },
+      "objective": 54.24606858024632,
+      "residual_power_kW": 111.89999999999998,
+      "durations": {
+        "ARC_DIAG": 2,
+        "CONV_REPAIR": 3,
+        "NANO_REPL": 3,
+        "STRUCT_REST": 3,
+        "SENSOR_CAL": 3,
+        "FLC_SYNC": 2,
+        "CHARGE": 4,
+        "THERMAL_INSP": 3,
+        "SAFETY_TEST": 2
+      }
+    },
+    {
+      "number": 2,
+      "rho": 0.7,
+      "excluded": [],
+      "outcome": "feasible",
+      "action": "validate and commit",
+      "route": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2",
+        "BUS_B",
+        "CLH"
+      ],
+      "allocation": {
+        "SP": 320,
+        "ES": 122,
+        "FS": 125,
+        "SR": 174,
+        "SN": 100
+      },
+      "objective": 50.830652722116916,
+      "residual_power_kW": 160.0,
+      "durations": {
+        "ARC_DIAG": 2,
+        "CONV_REPAIR": 3,
+        "NANO_REPL": 3,
+        "STRUCT_REST": 3,
+        "SENSOR_CAL": 2,
+        "FLC_SYNC": 2,
+        "CHARGE": 4,
+        "THERMAL_INSP": 3,
+        "SAFETY_TEST": 2
+      }
+    }
+  ],
+  "ucs": {
+    "found": true,
+    "path": [
+      "ARC",
+      "PC2",
+      "SW1",
+      "SW2",
+      "BUS_B",
+      "CLH"
+    ],
+    "path_cost": 44.2,
+    "total_loss_kW": 34.0,
+    "total_thermal_C": 14.0,
+    "total_switch_ms": 8.0,
+    "bottleneck_capacity_kW": 950,
+    "delivered_power_kW": 950,
+    "critical_load_kW": 420.0,
+    "power_budget_kW": 530.0,
+    "route_efficiency": 0.95,
+    "expansions": 15,
+    "generated": 19,
+    "pruned": [],
+    "excluded_edges": []
+  },
+  "ucs_trace": [
+    {
+      "step": 1,
+      "expand": "ARC",
+      "g": 0.0,
+      "theta": 0.0,
+      "path": [
+        "ARC"
+      ],
+      "pushed": [
+        {
+          "to": "PC2",
+          "edge_cost": 16.3,
+          "g": 16.3,
+          "theta": 3.0
+        },
+        {
+          "to": "BKP",
+          "edge_cost": 24.1,
+          "g": 24.1,
+          "theta": 1.0
+        }
+      ],
+      "rejected": [
+        {
+          "to": "PC1",
+          "reason": "PC1 FAILED (FRIDAY fault)"
+        },
+        {
+          "to": "PC3",
+          "reason": "capacity 520 < required 600 kW"
+        }
+      ],
+      "frontier_after": [
+        {
+          "node": "PC2",
+          "g": 16.3,
+          "theta": 3.0
+        },
+        {
+          "node": "BKP",
+          "g": 24.1,
+          "theta": 1.0
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "expand": "PC2",
+      "g": 16.3,
+      "theta": 3.0,
+      "path": [
+        "ARC",
+        "PC2"
+      ],
+      "pushed": [
+        {
+          "to": "SW1",
+          "edge_cost": 11.45,
+          "g": 27.75,
+          "theta": 5.5
+        },
+        {
+          "to": "SW2",
+          "edge_cost": 7.8,
+          "g": 24.1,
+          "theta": 7.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BKP",
+          "g": 24.1,
+          "theta": 1.0
+        },
+        {
+          "node": "SW2",
+          "g": 24.1,
+          "theta": 7.0
+        },
+        {
+          "node": "SW1",
+          "g": 27.75,
+          "theta": 5.5
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "expand": "BKP",
+      "g": 24.1,
+      "theta": 1.0,
+      "path": [
+        "ARC",
+        "BKP"
+      ],
+      "pushed": [
+        {
+          "to": "SW3",
+          "edge_cost": 11.7,
+          "g": 35.8,
+          "theta": 2.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "SW2",
+          "g": 24.1,
+          "theta": 7.0
+        },
+        {
+          "node": "SW1",
+          "g": 27.75,
+          "theta": 5.5
+        },
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "expand": "SW2",
+      "g": 24.1,
+      "theta": 7.0,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW2"
+      ],
+      "pushed": [
+        {
+          "to": "BUS_B",
+          "edge_cost": 6.15,
+          "g": 30.25,
+          "theta": 10.5
+        },
+        {
+          "to": "BUS_C",
+          "edge_cost": 9.9,
+          "g": 34.0,
+          "theta": 8.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "SW1",
+          "g": 27.75,
+          "theta": 5.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 30.25,
+          "theta": 10.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 34.0,
+          "theta": 8.0
+        },
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "expand": "SW1",
+      "g": 27.75,
+      "theta": 5.5,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1"
+      ],
+      "pushed": [
+        {
+          "to": "SW2",
+          "edge_cost": 3.3,
+          "g": 31.05,
+          "theta": 6.5
+        },
+        {
+          "to": "BUS_A",
+          "edge_cost": 8.4,
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "to": "BUS_B",
+          "edge_cost": 11.15,
+          "g": 38.9,
+          "theta": 7.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_B",
+          "g": 30.25,
+          "theta": 10.5
+        },
+        {
+          "node": "SW2",
+          "g": 31.05,
+          "theta": 6.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 34.0,
+          "theta": 8.0
+        },
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        },
+        {
+          "node": "BUS_A",
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "expand": "BUS_B",
+      "g": 30.25,
+      "theta": 10.5,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW2",
+        "BUS_B"
+      ],
+      "pushed": [],
+      "rejected": [
+        {
+          "to": "CLH",
+          "reason": "thermal 14.5 > limit 14.0 C"
+        }
+      ],
+      "frontier_after": [
+        {
+          "node": "SW2",
+          "g": 31.05,
+          "theta": 6.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 34.0,
+          "theta": 8.0
+        },
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        },
+        {
+          "node": "BUS_A",
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "expand": "SW2",
+      "g": 31.05,
+      "theta": 6.5,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2"
+      ],
+      "pushed": [
+        {
+          "to": "BUS_B",
+          "edge_cost": 6.15,
+          "g": 37.2,
+          "theta": 10.0
+        },
+        {
+          "to": "BUS_C",
+          "edge_cost": 9.9,
+          "g": 40.95,
+          "theta": 7.5
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_C",
+          "g": 34.0,
+          "theta": 8.0
+        },
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        },
+        {
+          "node": "BUS_A",
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 37.2,
+          "theta": 10.0
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        },
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "expand": "BUS_C",
+      "g": 34.0,
+      "theta": 8.0,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW2",
+        "BUS_C"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 13.0,
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "SW3",
+          "g": 35.8,
+          "theta": 2.0
+        },
+        {
+          "node": "BUS_A",
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 37.2,
+          "theta": 10.0
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        },
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "expand": "SW3",
+      "g": 35.8,
+      "theta": 2.0,
+      "path": [
+        "ARC",
+        "BKP",
+        "SW3"
+      ],
+      "pushed": [
+        {
+          "to": "BUS_C",
+          "edge_cost": 5.9,
+          "g": 41.7,
+          "theta": 3.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_A",
+          "g": 36.15,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_B",
+          "g": 37.2,
+          "theta": 10.0
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        },
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 41.7,
+          "theta": 3.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "expand": "BUS_A",
+      "g": 36.15,
+      "theta": 7.5,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "BUS_A"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 10.25,
+          "g": 46.4,
+          "theta": 12.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_B",
+          "g": 37.2,
+          "theta": 10.0
+        },
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        },
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 41.7,
+          "theta": 3.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "expand": "BUS_B",
+      "g": 37.2,
+      "theta": 10.0,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2",
+        "BUS_B"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 7.0,
+          "g": 44.2,
+          "theta": 14.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_B",
+          "g": 38.9,
+          "theta": 7.0
+        },
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 41.7,
+          "theta": 3.0
+        },
+        {
+          "node": "CLH",
+          "g": 44.2,
+          "theta": 14.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "expand": "BUS_B",
+      "g": 38.9,
+      "theta": 7.0,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "BUS_B"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 7.0,
+          "g": 45.9,
+          "theta": 11.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_C",
+          "g": 40.95,
+          "theta": 7.5
+        },
+        {
+          "node": "BUS_C",
+          "g": 41.7,
+          "theta": 3.0
+        },
+        {
+          "node": "CLH",
+          "g": 44.2,
+          "theta": 14.0
+        },
+        {
+          "node": "CLH",
+          "g": 45.9,
+          "theta": 11.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "expand": "BUS_C",
+      "g": 40.95,
+      "theta": 7.5,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2",
+        "BUS_C"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 13.0,
+          "g": 53.95,
+          "theta": 9.5
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "BUS_C",
+          "g": 41.7,
+          "theta": 3.0
+        },
+        {
+          "node": "CLH",
+          "g": 44.2,
+          "theta": 14.0
+        },
+        {
+          "node": "CLH",
+          "g": 45.9,
+          "theta": 11.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        },
+        {
+          "node": "CLH",
+          "g": 53.95,
+          "theta": 9.5
+        }
+      ]
+    },
+    {
+      "step": 14,
+      "expand": "BUS_C",
+      "g": 41.7,
+      "theta": 3.0,
+      "path": [
+        "ARC",
+        "BKP",
+        "SW3",
+        "BUS_C"
+      ],
+      "pushed": [
+        {
+          "to": "CLH",
+          "edge_cost": 13.0,
+          "g": 54.7,
+          "theta": 5.0
+        }
+      ],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "CLH",
+          "g": 44.2,
+          "theta": 14.0
+        },
+        {
+          "node": "CLH",
+          "g": 45.9,
+          "theta": 11.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        },
+        {
+          "node": "CLH",
+          "g": 53.95,
+          "theta": 9.5
+        },
+        {
+          "node": "CLH",
+          "g": 54.7,
+          "theta": 5.0
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "expand": "CLH",
+      "g": 44.2,
+      "theta": 14.0,
+      "path": [
+        "ARC",
+        "PC2",
+        "SW1",
+        "SW2",
+        "BUS_B",
+        "CLH"
+      ],
+      "pushed": [],
+      "rejected": [],
+      "frontier_after": [
+        {
+          "node": "CLH",
+          "g": 45.9,
+          "theta": 11.0
+        },
+        {
+          "node": "CLH",
+          "g": 46.4,
+          "theta": 12.0
+        },
+        {
+          "node": "CLH",
+          "g": 47.0,
+          "theta": 10.0
+        },
+        {
+          "node": "CLH",
+          "g": 53.95,
+          "theta": 9.5
+        },
+        {
+          "node": "CLH",
+          "g": 54.7,
+          "theta": 5.0
+        }
+      ],
+      "goal": true
+    }
+  ],
+  "sa": {
+    "feasible": true,
+    "allocation": {
+      "SP": 320,
+      "ES": 122,
+      "FS": 125,
+      "SR": 174,
+      "SN": 100
+    },
+    "objective": 50.830652722116916,
+    "energy": -50.830652722116916,
+    "nano_power_kW": 370.0,
+    "nano_heat_C": 10.784,
+    "material_used_NU": 841,
+    "power_cap_kW": 371.0,
+    "power_fraction": 0.7,
+    "residual_power_kW": 160.0,
+    "total_thermal_C": 24.784,
+    "iterations": 3240,
+    "accepted_worse": 672,
+    "rejected_infeasible": 890,
+    "improvements": 44,
+    "initial_allocation": {
+      "SP": 300,
+      "ES": 80,
+      "FS": 60,
+      "SR": 100,
+      "SN": 40
+    },
+    "initial_objective": 38.28658363028227,
+    "termination": "temperature 0.0047 < T_min 0.005"
+  },
+  "requirements": {
+    "tasks": [
+      {
+        "id": "ARC_DIAG",
+        "name": "Arc Reactor Diagnostics",
+        "duration": 2,
+        "power_kW": 40.0,
+        "technicians": 1,
+        "needs": {
+          "BAY": "standard",
+          "TESTRIG": "diagnostics"
+        },
+        "after": [],
+        "deadline": null,
+        "derivation": "fixed procedure length"
+      },
+      {
+        "id": "CONV_REPAIR",
+        "name": "Power-Converter Repair",
+        "duration": 3,
+        "power_kW": 60.0,
+        "technicians": 1,
+        "needs": {
+          "ARM": "standard",
+          "STATION": "electrical"
+        },
+        "after": [
+          "ARC_DIAG"
+        ],
+        "deadline": 8,
+        "derivation": "3 slots x 1 failed unit(s) ['PC1']"
+      },
+      {
+        "id": "NANO_REPL",
+        "name": "Nanomaterial Replenishment",
+        "duration": 3,
+        "power_kW": 70.0,
+        "technicians": 0,
+        "needs": {
+          "ARM": "nano",
+          "STATION": "nanofab"
+        },
+        "after": [
+          "STRUCT_REST"
+        ],
+        "deadline": null,
+        "derivation": "ceil(M=841 NU consumed / 400 NU per slot)"
+      },
+      {
+        "id": "STRUCT_REST",
+        "name": "Structural Restoration",
+        "duration": 3,
+        "power_kW": 90.0,
+        "technicians": 1,
+        "needs": {
+          "ARM": "nano",
+          "BAY": "standard"
+        },
+        "after": [
+          "ARC_DIAG"
+        ],
+        "deadline": null,
+        "derivation": "ceil(x_SR=174 / 80 NU per slot)"
+      },
+      {
+        "id": "SENSOR_CAL",
+        "name": "Sensor Calibration",
+        "duration": 2,
+        "power_kW": 30.0,
+        "technicians": 0,
+        "needs": {
+          "ARM": "precision",
+          "BAY": "standard",
+          "TESTRIG": "diagnostics"
+        },
+        "after": [
+          "STRUCT_REST"
+        ],
+        "deadline": null,
+        "derivation": "1 + ceil(x_SN=100 / 100)"
+      },
+      {
+        "id": "FLC_SYNC",
+        "name": "Flight-Controller Synchronization",
+        "duration": 2,
+        "power_kW": 35.0,
+        "technicians": 1,
+        "needs": {
+          "TESTRIG": "diagnostics"
+        },
+        "after": [
+          "CONV_REPAIR",
+          "SENSOR_CAL"
+        ],
+        "deadline": null,
+        "derivation": "1 + ceil(x_FS=125 / 150)"
+      },
+      {
+        "id": "CHARGE",
+        "name": "Armor Charging",
+        "duration": 4,
+        "power_kW": 120.0,
+        "technicians": 0,
+        "needs": {
+          "BAY": "charging-dock",
+          "CHARGER": "armor-charging"
+        },
+        "after": [
+          "CONV_REPAIR"
+        ],
+        "deadline": null,
+        "derivation": "ceil(deficit 220 kWh / (120 kW x eta=0.950 x 0.5 h))"
+      },
+      {
+        "id": "THERMAL_INSP",
+        "name": "Thermal Inspection",
+        "duration": 3,
+        "power_kW": 20.0,
+        "technicians": 1,
+        "needs": {
+          "BAY": "thermal-shielded"
+        },
+        "after": [
+          "CHARGE"
+        ],
+        "deadline": null,
+        "derivation": "1 + ceil(theta_total=24.78 C / 15)"
+      },
+      {
+        "id": "SAFETY_TEST",
+        "name": "Final Safety Testing",
+        "duration": 2,
+        "power_kW": 100.0,
+        "technicians": 2,
+        "needs": {
+          "BAY": "thermal-shielded",
+          "TESTRIG": "diagnostics"
+        },
+        "after": [
+          "FLC_SYNC",
+          "THERMAL_INSP",
+          "NANO_REPL"
+        ],
+        "deadline": 16,
+        "derivation": "fixed procedure length"
+      }
+    ],
+    "power_cap_kW": 160.0,
+    "horizon": 16,
+    "technicians": 2,
+    "notes": [
+      "Power cap for concurrent lab operations P_res = B - P_nano = 530.0 - 370.0 = 160.0 kW",
+      "Route efficiency eta = 0.950 scales the armor charging rate",
+      "Combined thermal load 24.78 C sets the thermal-inspection length"
+    ]
+  },
+  "csp_first": {
+    "solved": true,
+    "schedule": {
+      "ARC_DIAG": {
+        "start": 0,
+        "end": 2,
+        "duration": 2,
+        "resources": {
+          "BAY": "BAY-1",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 40.0,
+        "technicians": 1,
+        "name": "Arc Reactor Diagnostics"
+      },
+      "CONV_REPAIR": {
+        "start": 2,
+        "end": 5,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-2",
+          "STATION": "RS-E"
+        },
+        "power_kW": 60.0,
+        "technicians": 1,
+        "name": "Power-Converter Repair"
+      },
+      "NANO_REPL": {
+        "start": 9,
+        "end": 12,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-1",
+          "STATION": "RS-N"
+        },
+        "power_kW": 70.0,
+        "technicians": 0,
+        "name": "Nanomaterial Replenishment"
+      },
+      "STRUCT_REST": {
+        "start": 2,
+        "end": 5,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-1",
+          "BAY": "BAY-1"
+        },
+        "power_kW": 90.0,
+        "technicians": 1,
+        "name": "Structural Restoration"
+      },
+      "SENSOR_CAL": {
+        "start": 5,
+        "end": 7,
+        "duration": 2,
+        "resources": {
+          "ARM": "ARM-2",
+          "BAY": "BAY-2",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 30.0,
+        "technicians": 0,
+        "name": "Sensor Calibration"
+      },
+      "FLC_SYNC": {
+        "start": 7,
+        "end": 9,
+        "duration": 2,
+        "resources": {
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 35.0,
+        "technicians": 1,
+        "name": "Flight-Controller Synchronization"
+      },
+      "CHARGE": {
+        "start": 5,
+        "end": 9,
+        "duration": 4,
+        "resources": {
+          "BAY": "BAY-1",
+          "CHARGER": "CHG-1"
+        },
+        "power_kW": 120.0,
+        "technicians": 0,
+        "name": "Armor Charging"
+      },
+      "THERMAL_INSP": {
+        "start": 10,
+        "end": 13,
+        "duration": 3,
+        "resources": {
+          "BAY": "BAY-2"
+        },
+        "power_kW": 20.0,
+        "technicians": 1,
+        "name": "Thermal Inspection"
+      },
+      "SAFETY_TEST": {
+        "start": 13,
+        "end": 15,
+        "duration": 2,
+        "resources": {
+          "BAY": "BAY-2",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 100.0,
+        "technicians": 2,
+        "name": "Final Safety Testing"
+      }
+    },
+    "makespan": 15,
+    "nodes": 10,
+    "backtracks": 0,
+    "constraint_checks": 424,
+    "fc_prunes": 37,
+    "wipeouts": 1,
+    "failure_reason": "",
+    "elapsed_s": 0.0006412999937310815
+  },
+  "csp_final": {
+    "solved": true,
+    "schedule": {
+      "ARC_DIAG": {
+        "start": 0,
+        "end": 2,
+        "duration": 2,
+        "resources": {
+          "BAY": "BAY-1",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 40.0,
+        "technicians": 1,
+        "name": "Arc Reactor Diagnostics"
+      },
+      "CONV_REPAIR": {
+        "start": 2,
+        "end": 5,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-2",
+          "STATION": "RS-E"
+        },
+        "power_kW": 60.0,
+        "technicians": 1,
+        "name": "Power-Converter Repair"
+      },
+      "NANO_REPL": {
+        "start": 9,
+        "end": 12,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-1",
+          "STATION": "RS-N"
+        },
+        "power_kW": 70.0,
+        "technicians": 0,
+        "name": "Nanomaterial Replenishment"
+      },
+      "STRUCT_REST": {
+        "start": 2,
+        "end": 5,
+        "duration": 3,
+        "resources": {
+          "ARM": "ARM-1",
+          "BAY": "BAY-1"
+        },
+        "power_kW": 90.0,
+        "technicians": 1,
+        "name": "Structural Restoration"
+      },
+      "SENSOR_CAL": {
+        "start": 5,
+        "end": 7,
+        "duration": 2,
+        "resources": {
+          "ARM": "ARM-2",
+          "BAY": "BAY-2",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 30.0,
+        "technicians": 0,
+        "name": "Sensor Calibration"
+      },
+      "FLC_SYNC": {
+        "start": 7,
+        "end": 9,
+        "duration": 2,
+        "resources": {
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 35.0,
+        "technicians": 1,
+        "name": "Flight-Controller Synchronization"
+      },
+      "CHARGE": {
+        "start": 5,
+        "end": 9,
+        "duration": 4,
+        "resources": {
+          "BAY": "BAY-1",
+          "CHARGER": "CHG-1"
+        },
+        "power_kW": 120.0,
+        "technicians": 0,
+        "name": "Armor Charging"
+      },
+      "THERMAL_INSP": {
+        "start": 10,
+        "end": 13,
+        "duration": 3,
+        "resources": {
+          "BAY": "BAY-2"
+        },
+        "power_kW": 20.0,
+        "technicians": 1,
+        "name": "Thermal Inspection"
+      },
+      "SAFETY_TEST": {
+        "start": 13,
+        "end": 15,
+        "duration": 2,
+        "resources": {
+          "BAY": "BAY-2",
+          "TESTRIG": "TEST-RIG"
+        },
+        "power_kW": 100.0,
+        "technicians": 2,
+        "name": "Final Safety Testing"
+      }
+    },
+    "makespan": 15,
+    "nodes": 10,
+    "backtracks": 0,
+    "constraint_checks": 424,
+    "fc_prunes": 37,
+    "wipeouts": 1,
+    "failure_reason": "",
+    "elapsed_s": 0.0006412999937310815
+  },
+  "csp_domains": {
+    "ARC_DIAG": 4,
+    "CONV_REPAIR": 4,
+    "NANO_REPL": 7,
+    "STRUCT_REST": 12,
+    "SENSOR_CAL": 12,
+    "FLC_SYNC": 6,
+    "CHARGE": 2,
+    "THERMAL_INSP": 2,
+    "SAFETY_TEST": 2
+  },
+  "csp_bounds_log": [
+    "bound: CONV_REPAIR start >= 2 (after ARC_DIAG) |D| 12->8",
+    "bound: ARC_DIAG start <= 3 (before CONV_REPAIR) |D| 30->8",
+    "bound: NANO_REPL start >= 3 (after STRUCT_REST) |D| 14->11",
+    "bound: STRUCT_REST start <= 10 (before NANO_REPL) |D| 28->22",
+    "bound: STRUCT_REST start >= 2 (after ARC_DIAG) |D| 22->18",
+    "bound: SENSOR_CAL start >= 5 (after STRUCT_REST) |D| 30->20",
+    "bound: FLC_SYNC start >= 5 (after CONV_REPAIR) |D| 15->10",
+    "bound: FLC_SYNC start >= 7 (after SENSOR_CAL) |D| 10->8",
+    "bound: SENSOR_CAL start <= 12 (before FLC_SYNC) |D| 20->16",
+    "bound: CHARGE start >= 5 (after CONV_REPAIR) |D| 13->8",
+    "bound: THERMAL_INSP start >= 10 (after CHARGE) |D| 14->4",
+    "bound: CHARGE start <= 8 (before THERMAL_INSP) |D| 8->4",
+    "bound: SAFETY_TEST start >= 9 (after FLC_SYNC) |D| 15->6",
+    "bound: FLC_SYNC start <= 12 (before SAFETY_TEST) |D| 8->6",
+    "bound: SAFETY_TEST start >= 13 (after THERMAL_INSP) |D| 6->2",
+    "bound: THERMAL_INSP start <= 11 (before SAFETY_TEST) |D| 4->2",
+    "bound: NANO_REPL start <= 11 (before SAFETY_TEST) |D| 11->9",
+    "bound: NANO_REPL start >= 5 (after STRUCT_REST) |D| 9->7",
+    "bound: STRUCT_REST start <= 8 (before NANO_REPL) |D| 18->14",
+    "bound: SENSOR_CAL start <= 10 (before FLC_SYNC) |D| 16->12",
+    "bound: CHARGE start <= 6 (before THERMAL_INSP) |D| 4->2",
+    "bound: STRUCT_REST start <= 7 (before SENSOR_CAL) |D| 14->12",
+    "bound: CONV_REPAIR start <= 3 (before CHARGE) |D| 8->4",
+    "bound: ARC_DIAG start <= 1 (before CONV_REPAIR) |D| 8->4"
+  ],
+  "csp_constraint_edges": [
+    [
+      "ARC_DIAG",
+      "CONV_REPAIR",
+      "precedence"
+    ],
+    [
+      "STRUCT_REST",
+      "NANO_REPL",
+      "precedence"
+    ],
+    [
+      "ARC_DIAG",
+      "STRUCT_REST",
+      "precedence"
+    ],
+    [
+      "STRUCT_REST",
+      "SENSOR_CAL",
+      "precedence"
+    ],
+    [
+      "CONV_REPAIR",
+      "FLC_SYNC",
+      "precedence"
+    ],
+    [
+      "SENSOR_CAL",
+      "FLC_SYNC",
+      "precedence"
+    ],
+    [
+      "CONV_REPAIR",
+      "CHARGE",
+      "precedence"
+    ],
+    [
+      "CHARGE",
+      "THERMAL_INSP",
+      "separation"
+    ],
+    [
+      "FLC_SYNC",
+      "SAFETY_TEST",
+      "precedence"
+    ],
+    [
+      "THERMAL_INSP",
+      "SAFETY_TEST",
+      "precedence"
+    ],
+    [
+      "NANO_REPL",
+      "SAFETY_TEST",
+      "precedence"
+    ],
+    [
+      "CHARGE",
+      "STRUCT_REST",
+      "no-overlap"
+    ],
+    [
+      "ARC_DIAG",
+      "CHARGE",
+      "no-overlap"
+    ],
+    [
+      "ARC_DIAG",
+      "STRUCT_REST",
+      "resource:BAY-1,BAY-2"
+    ],
+    [
+      "ARC_DIAG",
+      "SENSOR_CAL",
+      "resource:BAY-1,BAY-2,TEST-RIG"
+    ],
+    [
+      "ARC_DIAG",
+      "FLC_SYNC",
+      "resource:TEST-RIG"
+    ],
+    [
+      "ARC_DIAG",
+      "CHARGE",
+      "resource:BAY-1"
+    ],
+    [
+      "ARC_DIAG",
+      "THERMAL_INSP",
+      "resource:BAY-2"
+    ],
+    [
+      "ARC_DIAG",
+      "SAFETY_TEST",
+      "resource:BAY-2,TEST-RIG"
+    ],
+    [
+      "CONV_REPAIR",
+      "NANO_REPL",
+      "resource:ARM-1"
+    ],
+    [
+      "CONV_REPAIR",
+      "STRUCT_REST",
+      "resource:ARM-1"
+    ],
+    [
+      "CONV_REPAIR",
+      "SENSOR_CAL",
+      "resource:ARM-2"
+    ],
+    [
+      "NANO_REPL",
+      "STRUCT_REST",
+      "resource:ARM-1"
+    ],
+    [
+      "STRUCT_REST",
+      "SENSOR_CAL",
+      "resource:BAY-1,BAY-2"
+    ],
+    [
+      "STRUCT_REST",
+      "CHARGE",
+      "resource:BAY-1"
+    ],
+    [
+      "STRUCT_REST",
+      "THERMAL_INSP",
+      "resource:BAY-2"
+    ],
+    [
+      "STRUCT_REST",
+      "SAFETY_TEST",
+      "resource:BAY-2"
+    ],
+    [
+      "SENSOR_CAL",
+      "FLC_SYNC",
+      "resource:TEST-RIG"
+    ],
+    [
+      "SENSOR_CAL",
+      "CHARGE",
+      "resource:BAY-1"
+    ],
+    [
+      "SENSOR_CAL",
+      "THERMAL_INSP",
+      "resource:BAY-2"
+    ],
+    [
+      "SENSOR_CAL",
+      "SAFETY_TEST",
+      "resource:BAY-2,TEST-RIG"
+    ],
+    [
+      "FLC_SYNC",
+      "SAFETY_TEST",
+      "resource:TEST-RIG"
+    ],
+    [
+      "THERMAL_INSP",
+      "SAFETY_TEST",
+      "resource:BAY-2"
+    ]
+  ],
+  "makespan_search": [
+    {
+      "horizon": 14,
+      "solved": false,
+      "nodes": 0,
+      "reason": "critical path forces SAFETY_TEST to end at slot 15 > limit 14; empty domain for THERMAL_INSP; empty domain for SAFETY_TEST"
+    }
+  ],
+  "checks": [
+    {
+      "stage": "UCS",
+      "check": "route found",
+      "passed": true,
+      "detail": "ARC -> PC2 -> SW1 -> SW2 -> BUS_B -> CLH"
+    },
+    {
+      "stage": "UCS",
+      "check": "starts at source / ends at goal",
+      "passed": true,
+      "detail": "ARC ... CLH"
+    },
+    {
+      "stage": "UCS",
+      "check": "avoids FAILED components",
+      "passed": true,
+      "detail": "failed on route: none"
+    },
+    {
+      "stage": "UCS",
+      "check": "capacity >= required throughput",
+      "passed": true,
+      "detail": "bottleneck 950 kW >= 600 kW"
+    },
+    {
+      "stage": "UCS",
+      "check": "route thermal <= limit",
+      "passed": true,
+      "detail": "14.00 C <= 14.00 C"
+    },
+    {
+      "stage": "UCS",
+      "check": "reported cost = recomputed cost",
+      "passed": true,
+      "detail": "44.2000 vs 44.2000"
+    },
+    {
+      "stage": "UCS",
+      "check": "optimal vs exhaustive enumeration",
+      "passed": true,
+      "detail": "UCS 44.20 = best of 6 feasible routes 44.20"
+    },
+    {
+      "stage": "UCS",
+      "check": "delivered power covers critical load",
+      "passed": true,
+      "detail": "delivered 950.0 kW - critical 420 kW = budget 530.0 kW"
+    },
+    {
+      "stage": "SA",
+      "check": "SP within [300, 700] NU",
+      "passed": true,
+      "detail": "x_SP = 320"
+    },
+    {
+      "stage": "SA",
+      "check": "ES within [80, 400] NU",
+      "passed": true,
+      "detail": "x_ES = 122"
+    },
+    {
+      "stage": "SA",
+      "check": "FS within [60, 350] NU",
+      "passed": true,
+      "detail": "x_FS = 125"
+    },
+    {
+      "stage": "SA",
+      "check": "SR within [100, 500] NU",
+      "passed": true,
+      "detail": "x_SR = 174"
+    },
+    {
+      "stage": "SA",
+      "check": "SN within [40, 250] NU",
+      "passed": true,
+      "detail": "x_SN = 100"
+    },
+    {
+      "stage": "SA",
+      "check": "material <= reserve",
+      "passed": true,
+      "detail": "841 <= 1200 NU"
+    },
+    {
+      "stage": "SA",
+      "check": "nano power <= rho * B",
+      "passed": true,
+      "detail": "370.0 <= 371.0 kW (rho=0.70)"
+    },
+    {
+      "stage": "SA",
+      "check": "armor thermal <= limit",
+      "passed": true,
+      "detail": "24.78 <= 30.0 C"
+    },
+    {
+      "stage": "SA",
+      "check": "reported objective = recomputed",
+      "passed": true,
+      "detail": "J = 50.8307"
+    },
+    {
+      "stage": "SA",
+      "check": "final J >= initial J",
+      "passed": true,
+      "detail": "50.831 >= 38.287"
+    },
+    {
+      "stage": "CSP",
+      "check": "schedule found",
+      "passed": true,
+      "detail": "makespan 15 slots"
+    },
+    {
+      "stage": "CSP",
+      "check": "every task scheduled",
+      "passed": true,
+      "detail": "9/9 tasks"
+    },
+    {
+      "stage": "CSP",
+      "check": "C1 precedence",
+      "passed": true,
+      "detail": "all dependencies respected"
+    },
+    {
+      "stage": "CSP",
+      "check": "C2 safety separation",
+      "passed": true,
+      "detail": "cool-down gaps respected"
+    },
+    {
+      "stage": "CSP",
+      "check": "C3 safety no-overlap",
+      "passed": true,
+      "detail": "no forbidden overlaps"
+    },
+    {
+      "stage": "CSP",
+      "check": "C4 resource exclusivity",
+      "passed": true,
+      "detail": "no unit double-booked"
+    },
+    {
+      "stage": "CSP",
+      "check": "equipment compatibility",
+      "passed": true,
+      "detail": "all units capable"
+    },
+    {
+      "stage": "CSP",
+      "check": "C5 power profile <= P_res",
+      "passed": true,
+      "detail": "peak 155 kW <= 160.0 kW"
+    },
+    {
+      "stage": "CSP",
+      "check": "C6 technicians",
+      "passed": true,
+      "detail": "peak 2 <= 2"
+    },
+    {
+      "stage": "CSP",
+      "check": "C7 deadlines / horizon",
+      "passed": true,
+      "detail": "makespan 15 <= 16"
+    },
+    {
+      "stage": "CSP",
+      "check": "durations match derived requirements",
+      "passed": true,
+      "detail": "ok"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "power balance  P_crit + P_nano + peak P_lab <= P_delivered",
+      "passed": true,
+      "detail": "420 + 370.0 + 155 = 945.0 <= 950.0 kW"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "reactor balance  P_delivered + losses <= P_avail",
+      "passed": true,
+      "detail": "950 + 34 <= 1000 kW"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "thermal  theta_route + theta_nano <= Theta_armor",
+      "passed": true,
+      "detail": "14.00 + 10.78 = 24.78 <= 30.0 C"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "mandatory structural protection",
+      "passed": true,
+      "detail": "x_SP = 320 >= 300 NU"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "consumed nanomaterial is replenished",
+      "passed": true,
+      "detail": "841 NU replenished in slots 9-12"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "armor recharged to target state of charge",
+      "passed": true,
+      "detail": "228.0 kWh delivered >= 220.0 kWh deficit"
+    },
+    {
+      "stage": "INTEGRATED",
+      "check": "mission completes before deadline",
+      "passed": true,
+      "detail": "15 slots x 30 min = 7.5 h <= 8.0 h"
+    }
+  ],
+  "health_after": {
+    "FLC": 86.6,
+    "STB": 84.1,
+    "SEN": 91.7,
+    "LSC": 94.7,
+    "STR": 77.8
+  },
+  "performance": {
+    "sa_vs_hc": {
+      "sa": [
+        50.7839,
+        51.199,
+        51.0194,
+        50.5801,
+        50.859,
+        50.5529,
+        51.0271,
+        50.529,
+        50.6001,
+        51.1142,
+        50.3589,
+        50.9305,
+        51.055,
+        50.596,
+        50.9387,
+        51.05,
+        50.7951,
+        50.2326,
+        50.8464,
+        50.9809,
+        50.8307,
+        51.1614,
+        50.1278,
+        50.8371,
+        50.3647,
+        51.1562,
+        50.5196,
+        51.0244,
+        50.5198,
+        50.575
+      ],
+      "hc": [
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        48.5245,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458,
+        47.4458
+      ],
+      "sa_mean": 50.77218333333333,
+      "sa_std": 0.28734772904773187,
+      "sa_best": 51.199,
+      "sa_worst": 50.1278,
+      "hc_mean": 47.48175666666666,
+      "hc_std": 0.19363257591520053,
+      "hc_best": 48.5245,
+      "hc_worst": 47.4458,
+      "sa_wins": 30,
+      "sa_mean_iters": 2746.6666666666665,
+      "sa_mean_time_s": 0.054063713333259024
+    },
+    "csp_variants": [
+      {
+        "variant": "MRV + degree + FC",
+        "solved": true,
+        "makespan": 15,
+        "nodes": 10,
+        "backtracks": 0,
+        "checks": 424,
+        "wipeouts": 1,
+        "time_ms": 1.01
+      },
+      {
+        "variant": "MRV + FC",
+        "solved": true,
+        "makespan": 15,
+        "nodes": 10,
+        "backtracks": 0,
+        "checks": 370,
+        "wipeouts": 1,
+        "time_ms": 0.78
+      },
+      {
+        "variant": "FC only (static order)",
+        "solved": true,
+        "makespan": 15,
+        "nodes": 38,
+        "backtracks": 4,
+        "checks": 1636,
+        "wipeouts": 25,
+        "time_ms": 1.6
+      },
+      {
+        "variant": "MRV + degree, no FC",
+        "solved": true,
+        "makespan": 15,
+        "nodes": 341,
+        "backtracks": 33,
+        "checks": 1149,
+        "wipeouts": 0,
+        "time_ms": 2.13
+      },
+      {
+        "variant": "Plain backtracking",
+        "solved": true,
+        "makespan": 15,
+        "nodes": 3828,
+        "backtracks": 1097,
+        "checks": 19697,
+        "wipeouts": 0,
+        "time_ms": 19.48
+      }
+    ],
+    "route_methods": [
+      {
+        "method": "UCS\n(all constraints)",
+        "path": [
+          "ARC",
+          "PC2",
+          "SW1",
+          "SW2",
+          "BUS_B",
+          "CLH"
+        ],
+        "cost": 44.2,
+        "thermal": 14.0,
+        "feasible": true
+      },
+      {
+        "method": "UCS\nthermal-blind",
+        "path": [
+          "ARC",
+          "PC2",
+          "SW2",
+          "BUS_B",
+          "CLH"
+        ],
+        "cost": 37.25,
+        "thermal": 14.5,
+        "feasible": false
+      },
+      {
+        "method": "UCS thermal- &\ncapacity-blind",
+        "path": [
+          "ARC",
+          "PC3",
+          "SW2",
+          "BUS_B",
+          "CLH"
+        ],
+        "cost": 28.35,
+        "thermal": 11.5,
+        "feasible": false
+      },
+      {
+        "method": "BFS\n(fewest hops)",
+        "path": [
+          "ARC",
+          "PC2",
+          "SW1",
+          "BUS_A",
+          "CLH"
+        ],
+        "cost": 46.4,
+        "thermal": 12.0,
+        "feasible": true
+      }
+    ],
+    "timing_ms": {
+      "ucs": 0.118,
+      "sa": 54.1,
+      "csp": 1.01
+    }
+  }
+}

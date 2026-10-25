@@ -1,0 +1,25 @@
+SELECT SAFETY_TEST (MRV |D|=2, degree=6)
+ASSIGN SAFETY_TEST=(start 13, end 15, BAY-2/TEST-RIG)
+  FC: NANO_REPL 7->6, FLC_SYNC 6->5, THERMAL_INSP 2->1
+  SELECT THERMAL_INSP (MRV |D|=1, degree=4)
+  ASSIGN THERMAL_INSP=(start 10, end 13, BAY-2)
+    FC: SENSOR_CAL 12->10, CHARGE 2->1
+    SELECT CHARGE (MRV |D|=1, degree=4)
+    ASSIGN CHARGE=(start 5, end 9, BAY-1/CHG-1)
+      FC: CONV_REPAIR 4->2, NANO_REPL 6->2, STRUCT_REST 12->2, SENSOR_CAL 10->6
+      SELECT CONV_REPAIR (MRV |D|=2, degree=5)
+      ASSIGN CONV_REPAIR=(start 2, end 5, ARM-1/RS-E)
+        FC WIPEOUT: domain of STRUCT_REST empty -> undo CONV_REPAIR
+      ASSIGN CONV_REPAIR=(start 2, end 5, ARM-2/RS-E)
+        FC: ARC_DIAG 4->2
+        SELECT ARC_DIAG (MRV |D|=2, degree=3)
+        ASSIGN ARC_DIAG=(start 0, end 2, BAY-1/TEST-RIG)
+          SELECT STRUCT_REST (MRV |D|=2, degree=2)
+          ASSIGN STRUCT_REST=(start 2, end 5, ARM-1/BAY-1)
+            SELECT NANO_REPL (MRV |D|=2, degree=0)
+            ASSIGN NANO_REPL=(start 9, end 12, ARM-1/RS-N)
+              SELECT FLC_SYNC (MRV |D|=5, degree=1)
+              ASSIGN FLC_SYNC=(start 7, end 9, TEST-RIG)
+                FC: SENSOR_CAL 6->1
+                SELECT SENSOR_CAL (MRV |D|=1, degree=0)
+                ASSIGN SENSOR_CAL=(start 5, end 7, ARM-2/BAY-2/TEST-RIG)

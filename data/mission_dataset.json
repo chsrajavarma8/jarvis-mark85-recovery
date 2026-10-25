@@ -1,0 +1,147 @@
+{
+  "_notice": "FICTIONAL ENGINEERING SIMULATION DATA. All values are invented for an academic AI case study and are not measurements of any real physical system.",
+  "mission": {
+    "id": "MK85-REC-001",
+    "armor": "Iron Man Mark 85",
+    "location": "Stark Tower - Armor Testing Laboratory",
+    "trigger": "FRIDAY fault report: Arc Reactor distribution fault, primary converter PC1 offline, nanomaterial reserve depleted, subsystem damage",
+    "slot_minutes": 30,
+    "horizon_slots": 16,
+    "seed": 85,
+    "max_replanning_attempts": 4
+  },
+  "reactor": {
+    "nominal_output_kW": 1500,
+    "available_output_kW": 1000,
+    "status": "DEGRADED"
+  },
+  "subsystems": [
+    {"id": "FLC", "name": "Flight Controller",        "health_pct": 62, "critical_load_kW": 120, "status": "DEGRADED"},
+    {"id": "STB", "name": "Stabilization System",     "health_pct": 55, "critical_load_kW": 110, "status": "DEGRADED"},
+    {"id": "SEN", "name": "Sensor Array",             "health_pct": 71, "critical_load_kW": 60,  "status": "MISCALIBRATED"},
+    {"id": "LSC", "name": "Life-Support Controller",  "health_pct": 88, "critical_load_kW": 130, "status": "NOMINAL-ON-BACKUP"},
+    {"id": "STR", "name": "Structural Shell",         "health_pct": 47, "critical_load_kW": 0,   "status": "BREACHED"}
+  ],
+  "power_network": {
+    "source": "ARC",
+    "goal": "CLH",
+    "required_throughput_kW": 600,
+    "thermal_limit_C": 14.0,
+    "cost_weights": {"loss": 1.0, "thermal": 0.5, "switching": 0.4},
+    "nodes": [
+      {"id": "ARC",   "label": "Arc Reactor",            "type": "source",    "status": "DEGRADED"},
+      {"id": "PC1",   "label": "Primary Converter",      "type": "converter", "status": "FAILED"},
+      {"id": "PC2",   "label": "Secondary Converter",    "type": "converter", "status": "OK"},
+      {"id": "PC3",   "label": "Aux Micro-Converter",    "type": "converter", "status": "OK"},
+      {"id": "BKP",   "label": "Backup Storage",         "type": "storage",   "status": "OK"},
+      {"id": "SW1",   "label": "Switching Unit 1",       "type": "switch",    "status": "OK"},
+      {"id": "SW2",   "label": "Switching Unit 2",       "type": "switch",    "status": "OK"},
+      {"id": "SW3",   "label": "Switching Unit 3",       "type": "switch",    "status": "OK"},
+      {"id": "BUS_A", "label": "Distribution Bus A",     "type": "bus",       "status": "OK"},
+      {"id": "BUS_B", "label": "Distribution Bus B",     "type": "bus",       "status": "OK"},
+      {"id": "BUS_C", "label": "Distribution Bus C",     "type": "bus",       "status": "OK"},
+      {"id": "CLH",   "label": "Critical Load Hub",      "type": "hub",       "status": "OK"},
+      {"id": "FLC",   "label": "Flight Controller",      "type": "load",      "status": "DEGRADED"},
+      {"id": "STB",   "label": "Stabilization System",   "type": "load",      "status": "DEGRADED"},
+      {"id": "SEN",   "label": "Sensor Array",           "type": "load",      "status": "MISCALIBRATED"},
+      {"id": "LSC",   "label": "Life-Support Controller","type": "load",      "status": "OK"}
+    ],
+    "edges": [
+      {"u": "ARC",   "v": "PC1",   "loss_kW": 6,  "thermal_C": 1.5, "switch_ms": 1, "capacity_kW": 1200},
+      {"u": "ARC",   "v": "PC2",   "loss_kW": 14, "thermal_C": 3.0, "switch_ms": 2, "capacity_kW": 950},
+      {"u": "ARC",   "v": "PC3",   "loss_kW": 8,  "thermal_C": 2.0, "switch_ms": 1, "capacity_kW": 520},
+      {"u": "ARC",   "v": "BKP",   "loss_kW": 22, "thermal_C": 1.0, "switch_ms": 4, "capacity_kW": 700},
+      {"u": "PC1",   "v": "SW1",   "loss_kW": 3,  "thermal_C": 1.0, "switch_ms": 1, "capacity_kW": 1200},
+      {"u": "PC2",   "v": "SW1",   "loss_kW": 9,  "thermal_C": 2.5, "switch_ms": 3, "capacity_kW": 960},
+      {"u": "PC2",   "v": "SW2",   "loss_kW": 5,  "thermal_C": 4.0, "switch_ms": 2, "capacity_kW": 850},
+      {"u": "PC3",   "v": "SW2",   "loss_kW": 4,  "thermal_C": 2.0, "switch_ms": 2, "capacity_kW": 520},
+      {"u": "BKP",   "v": "SW3",   "loss_kW": 10, "thermal_C": 1.0, "switch_ms": 3, "capacity_kW": 700},
+      {"u": "SW1",   "v": "SW2",   "loss_kW": 2,  "thermal_C": 1.0, "switch_ms": 2, "capacity_kW": 960},
+      {"u": "SW1",   "v": "BUS_A", "loss_kW": 7,  "thermal_C": 2.0, "switch_ms": 1, "capacity_kW": 800},
+      {"u": "SW1",   "v": "BUS_B", "loss_kW": 10, "thermal_C": 1.5, "switch_ms": 1, "capacity_kW": 780},
+      {"u": "SW2",   "v": "BUS_B", "loss_kW": 4,  "thermal_C": 3.5, "switch_ms": 1, "capacity_kW": 980},
+      {"u": "SW2",   "v": "BUS_C", "loss_kW": 9,  "thermal_C": 1.0, "switch_ms": 1, "capacity_kW": 750},
+      {"u": "SW3",   "v": "BUS_C", "loss_kW": 5,  "thermal_C": 1.0, "switch_ms": 1, "capacity_kW": 700},
+      {"u": "BUS_A", "v": "CLH",   "loss_kW": 8,  "thermal_C": 4.5, "switch_ms": 0, "capacity_kW": 900},
+      {"u": "BUS_B", "v": "CLH",   "loss_kW": 5,  "thermal_C": 4.0, "switch_ms": 0, "capacity_kW": 1000},
+      {"u": "BUS_C", "v": "CLH",   "loss_kW": 12, "thermal_C": 2.0, "switch_ms": 0, "capacity_kW": 760}
+    ],
+    "load_edges": [
+      {"u": "CLH", "v": "FLC"}, {"u": "CLH", "v": "STB"}, {"u": "CLH", "v": "SEN"}, {"u": "CLH", "v": "LSC"}
+    ]
+  },
+  "nanomaterial": {
+    "reserve_NU": 1200,
+    "armor_thermal_limit_C": 30.0,
+    "initial_power_fraction": 0.80,
+    "objective_weights": {"energy": 12.0, "material": 6.0, "packet_waste": 1.2},
+    "categories": [
+      {"id": "SP", "name": "Structural Protection",  "min_NU": 300, "max_NU": 700, "power_kW_per_NU": 0.30, "heat_C_per_NU": 0.010, "benefit_weight": 0.30, "saturation_NU": 260, "packet_NU": 40},
+      {"id": "ES", "name": "Emergency Shielding",    "min_NU": 80,  "max_NU": 400, "power_kW_per_NU": 0.60, "heat_C_per_NU": 0.018, "benefit_weight": 0.20, "saturation_NU": 150, "packet_NU": 30},
+      {"id": "FS", "name": "Flight Stabilization",   "min_NU": 60,  "max_NU": 350, "power_kW_per_NU": 0.70, "heat_C_per_NU": 0.020, "benefit_weight": 0.20, "saturation_NU": 120, "packet_NU": 25},
+      {"id": "SR", "name": "Structural Repair",      "min_NU": 100, "max_NU": 500, "power_kW_per_NU": 0.45, "heat_C_per_NU": 0.012, "benefit_weight": 0.20, "saturation_NU": 200, "packet_NU": 50},
+      {"id": "SN", "name": "Sensor Protection",      "min_NU": 40,  "max_NU": 250, "power_kW_per_NU": 0.35, "heat_C_per_NU": 0.008, "benefit_weight": 0.10, "saturation_NU": 80,  "packet_NU": 20}
+    ]
+  },
+  "annealing": {
+    "initial_temperature": 4.0,
+    "cooling_rate": 0.92,
+    "min_temperature": 0.005,
+    "iterations_per_temperature": 40,
+    "max_iterations": 4000,
+    "stall_epochs": 25,
+    "step_min_NU": 1,
+    "step_max_NU": 15
+  },
+  "requirement_rules": {
+    "struct_restoration_NU_per_slot": 80,
+    "replenishment_NU_per_slot": 400,
+    "sensor_calibration_NU_per_slot": 100,
+    "flight_sync_NU_per_slot": 150,
+    "thermal_inspection_C_per_slot": 15,
+    "armor_battery_capacity_kWh": 400,
+    "armor_state_of_charge": 0.35,
+    "target_state_of_charge": 0.90,
+    "charger_rating_kW": 120,
+    "converter_repair_slots_per_failed_unit": 3,
+    "replan_power_fraction_step": 0.10,
+    "min_power_fraction": 0.40
+  },
+  "laboratory": {
+    "resources": {
+      "ARM":     [{"id": "ARM-1", "capabilities": ["nano", "standard"]}, {"id": "ARM-2", "capabilities": ["precision", "standard"]}],
+      "STATION": [{"id": "RS-E",  "capabilities": ["electrical"]},       {"id": "RS-N",  "capabilities": ["nanofab"]}],
+      "BAY":     [{"id": "BAY-1", "capabilities": ["standard", "charging-dock"]}, {"id": "BAY-2", "capabilities": ["standard", "thermal-shielded"]}],
+      "CHARGER": [{"id": "CHG-1", "capabilities": ["armor-charging"]}],
+      "TESTRIG": [{"id": "TEST-RIG", "capabilities": ["diagnostics"]}]
+    },
+    "technicians": 2,
+    "tasks": [
+      {"id": "ARC_DIAG",     "name": "Arc Reactor Diagnostics",       "duration_rule": "fixed:2",            "power_kW": 40,  "technicians": 1,
+       "needs": {"BAY": "standard", "TESTRIG": "diagnostics"}, "after": [], "deadline": null},
+      {"id": "CONV_REPAIR",  "name": "Power-Converter Repair",        "duration_rule": "converter_repair",   "power_kW": 60,  "technicians": 1,
+       "needs": {"ARM": "standard", "STATION": "electrical"}, "after": ["ARC_DIAG"], "deadline": 8},
+      {"id": "NANO_REPL",    "name": "Nanomaterial Replenishment",    "duration_rule": "replenishment",      "power_kW": 70,  "technicians": 0,
+       "needs": {"ARM": "nano", "STATION": "nanofab"}, "after": ["STRUCT_REST"], "deadline": null},
+      {"id": "STRUCT_REST",  "name": "Structural Restoration",        "duration_rule": "struct_restoration", "power_kW": 90,  "technicians": 1,
+       "needs": {"ARM": "nano", "BAY": "standard"}, "after": ["ARC_DIAG"], "deadline": null},
+      {"id": "SENSOR_CAL",   "name": "Sensor Calibration",            "duration_rule": "sensor_calibration", "power_kW": 30,  "technicians": 0,
+       "needs": {"ARM": "precision", "BAY": "standard", "TESTRIG": "diagnostics"}, "after": ["STRUCT_REST"], "deadline": null},
+      {"id": "FLC_SYNC",     "name": "Flight-Controller Synchronization", "duration_rule": "flight_sync",    "power_kW": 35,  "technicians": 1,
+       "needs": {"TESTRIG": "diagnostics"}, "after": ["CONV_REPAIR", "SENSOR_CAL"], "deadline": null},
+      {"id": "CHARGE",       "name": "Armor Charging",                "duration_rule": "charging",           "power_kW": 120, "technicians": 0,
+       "needs": {"BAY": "charging-dock", "CHARGER": "armor-charging"}, "after": ["CONV_REPAIR"], "deadline": null},
+      {"id": "THERMAL_INSP", "name": "Thermal Inspection",            "duration_rule": "thermal_inspection", "power_kW": 20,  "technicians": 1,
+       "needs": {"BAY": "thermal-shielded"}, "after": ["CHARGE"], "deadline": null},
+      {"id": "SAFETY_TEST",  "name": "Final Safety Testing",          "duration_rule": "fixed:2",            "power_kW": 100, "technicians": 2,
+       "needs": {"BAY": "thermal-shielded", "TESTRIG": "diagnostics"}, "after": ["FLC_SYNC", "THERMAL_INSP", "NANO_REPL"], "deadline": 16}
+    ],
+    "separations": [
+      {"first": "CHARGE", "second": "THERMAL_INSP", "min_gap_slots": 1, "reason": "post-charge cool-down before thermal imaging"}
+    ],
+    "no_overlap": [
+      {"a": "STRUCT_REST", "b": "CHARGE", "reason": "no nanite fabrication during high-current charging"},
+      {"a": "ARC_DIAG",    "b": "CHARGE", "reason": "reactor diagnostics require isolated reactor"}
+    ]
+  }
+}
